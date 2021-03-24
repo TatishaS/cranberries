@@ -56,7 +56,7 @@ modalCart.addEventListener('click', event => {
 // goods
 
 const more = document.querySelector('.more');
-const navigationItems = document.querySelectorAll('.navigation-item');
+const navigationLinks = document.querySelectorAll('.navigation-link');
 const longGoodsList = document.querySelector('.long-goods-list');
 
 const getGoods = async function () {
@@ -114,4 +114,11 @@ const filterCards = function (field, value) {
     .then(renderCards);
 };
 
-filterCards('gender', 'Mens');
+navigationLinks.forEach(function (link) {
+  link.addEventListener('click', function (e) {
+    e.preventDefault();
+    const field = link.dataset.field;
+    const value = link.textContent;
+    filterCards(field, value);
+  });
+});

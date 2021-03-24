@@ -102,3 +102,16 @@ more.addEventListener('click', function (e) {
   e.preventDefault();
   getGoods().then(renderCards);
 });
+
+const filterCards = function (field, value) {
+  getGoods()
+    .then(function (data) {
+      const filteredGoods = data.filter(function (good) {
+        return good[field] === value;
+      });
+      return filteredGoods;
+    })
+    .then(renderCards);
+};
+
+filterCards('gender', 'Mens');

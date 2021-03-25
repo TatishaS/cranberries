@@ -108,6 +108,7 @@ const filterCards = function (field, value) {
   getGoods()
     .then(function (data) {
       const filteredGoods = data.filter(function (good) {
+        console.log(good);
         return good[field] === value;
       });
       return filteredGoods;
@@ -120,6 +121,7 @@ navigationLinks.forEach(function (link) {
     e.preventDefault();
     const field = link.dataset.field;
     const value = link.textContent;
-    filterCards(field, value);
+
+    field ? filterCards(field, value) : getGoods().then(renderCards);
   });
 });

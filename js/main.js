@@ -29,20 +29,7 @@ const getGoods = async () => {
 };
 
 const cart = {
-  cartGoods: [
-    {
-      id: '099',
-      name: 'Dior Часы',
-      price: 999,
-      count: 1,
-    },
-    {
-      id: '090',
-      name: 'Кеды Converse',
-      price: 39,
-      count: 3,
-    },
-  ],
+  cartGoods: [],
   renderCart() {
     cartTableGoods.textContent = '';
     this.cartGoods.forEach(({ id, name, price, count }) => {
@@ -96,8 +83,32 @@ const cart = {
     }
     this.renderCart();
   },
-  addCartGoods(id) {},
+  addCartGoods(id) {
+    const goodItem = this.cartGoods.find(item => item.id === id);
+    if (goodItem) {
+      this.plusGood(id);
+    } else {
+      getGoods()
+        .then(data => data.find(item => item.id === id))
+        .then(({ id, name, price }) => {
+          this.cartGoods.push({
+            id,
+            name,
+            price,
+            count: 1,
+          });
+        });
+    }
+  },
 };
+
+document.body.addEventListener('click', e => {
+  const addToCart = event.target.closest('.add-to-cart');
+
+  if (addToCart) {
+    cart.addCartGoods(addToCart.dataset.id);
+  }
+});
 
 cartTableGoods.addEventListener('click', e => {
   const target = event.target;

@@ -14,14 +14,25 @@ const buttonCart = document.querySelector('.button-cart');
 const modalCart = document.querySelector('#modal-cart');
 const modalClose = document.querySelector('.modal-close');
 const overlay = document.querySelector('.overlay');
+const more = document.querySelector('.more');
+const navigationLinks = document.querySelectorAll('.navigation-link');
+const longGoodsList = document.querySelector('.long-goods-list');
+
+const getGoods = async () => {
+  const result = await fetch('db/db.json');
+  if (!result.ok) {
+    throw 'Ошибка! ' + result.status;
+  }
+  return await result.json();
+};
 
 // Functions
-const openModal = function () {
+const openModal = () => {
   console.log(buttonCart);
   modalCart.classList.add('show');
 };
 
-const closeModal = function () {
+const closeModal = () => {
   console.log(buttonCart);
   modalCart.classList.remove('show');
 };
@@ -42,7 +53,7 @@ modalCart.addEventListener('click', event => {
   const scrollLinks = document.querySelectorAll('a.scroll-link');
 
   for (const scrollLink of scrollLinks) {
-    scrollLink.addEventListener('click', function (e) {
+    scrollLink.addEventListener('click', e => {
       e.preventDefault();
       const id = scrollLink.getAttribute('href');
       document.querySelector(id).scrollIntoView({
@@ -54,18 +65,6 @@ modalCart.addEventListener('click', event => {
 }
 
 // goods
-
-const more = document.querySelector('.more');
-const navigationLinks = document.querySelectorAll('.navigation-link');
-const longGoodsList = document.querySelector('.long-goods-list');
-
-const getGoods = async function () {
-  const result = await fetch('db/db.json');
-  if (!result.ok) {
-    throw 'Ошибка! ' + result.status;
-  }
-  return await result.json();
-};
 
 const createCard = function ({ label, name, img, description, id, price }) {
   const card = document.createElement('div');
@@ -99,25 +98,19 @@ const renderCards = function (data) {
   document.body.classList.add('show-goods');
 };
 
-more.addEventListener('click', function (e) {
+more.addEventListener('click', e => {
   e.preventDefault();
   getGoods().then(renderCards);
 });
 
 const filterCards = function (field, value) {
   getGoods()
-    .then(function (data) {
-      const filteredGoods = data.filter(function (good) {
-        console.log(good);
-        return good[field] === value;
-      });
-      return filteredGoods;
-    })
+    .then(data => data.filter(good => good[field] === value))
     .then(renderCards);
 };
 
 navigationLinks.forEach(function (link) {
-  link.addEventListener('click', function (e) {
+  link.addEventListener('click', e => {
     e.preventDefault();
     const field = link.dataset.field;
     const value = link.textContent;

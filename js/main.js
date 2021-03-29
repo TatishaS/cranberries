@@ -16,6 +16,8 @@ const modalClose = document.querySelector('.modal-close');
 const overlay = document.querySelector('.overlay');
 const more = document.querySelector('.more');
 const navigationLinks = document.querySelectorAll('.navigation-link');
+const accessoriesBtn = document.getElementById('accessories');
+const clothingBtn = document.getElementById('clothing');
 const longGoodsList = document.querySelector('.long-goods-list');
 const cartTableGoods = document.querySelector('.cart-table__goods');
 const cardTableTotal = document.querySelector('.card-table__total');
@@ -200,10 +202,12 @@ const renderCards = function (data) {
   document.body.classList.add('show-goods');
 };
 
-more.addEventListener('click', e => {
+const renderAllCards = function (e) {
   e.preventDefault();
   getGoods().then(renderCards);
-});
+};
+
+more.addEventListener('click', renderAllCards);
 
 const filterCards = function (field, value) {
   getGoods()
@@ -216,7 +220,21 @@ navigationLinks.forEach(function (link) {
     e.preventDefault();
     const field = link.dataset.field;
     const value = link.textContent;
-
-    field ? filterCards(field, value) : getGoods().then(renderCards);
+    field ? filterCards(field, value) : renderAllCards(e);
   });
 });
+
+console.log(clothingBtn);
+accessoriesBtn.addEventListener('click', e => {
+  e.preventDefault();
+  filterCards('category', 'Accessories');
+});
+clothingBtn.addEventListener('click', e => {
+  e.preventDefault();
+  filterCards('category', 'Clothing');
+});
+
+/* accessoriesBtn.addEventListener('click', e => {
+  e.preventDefault();
+  const field = accessoriesBtn.dataset.
+}) */

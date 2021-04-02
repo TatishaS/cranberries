@@ -22,6 +22,7 @@ const longGoodsList = document.querySelector('.long-goods-list');
 const cartTableGoods = document.querySelector('.cart-table__goods');
 const cardTableTotal = document.querySelector('.card-table__total');
 const cartCount = document.querySelector('.cart-count');
+const btnClear = document.querySelector('.btn-clear');
 
 const getGoods = async () => {
   const result = await fetch('db/db.json');
@@ -41,7 +42,8 @@ const cart = {
   clearCart() {
     this.cartGoods.length = 0;
     this.countQuantity();
-  }
+    this.renderCart();
+  },
 
   renderCart() {
     cartTableGoods.textContent = '';
@@ -249,7 +251,4 @@ clothingBtn.addEventListener('click', e => {
   filterCards('category', 'Clothing');
 });
 
-/* accessoriesBtn.addEventListener('click', e => {
-  e.preventDefault();
-  const field = accessoriesBtn.dataset.
-}) */
+btnClear.addEventListener('click', cart.clearCart.bind(cart));

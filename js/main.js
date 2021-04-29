@@ -241,7 +241,6 @@ navigationLinks.forEach(function (link) {
   });
 });
 
-console.log(clothingBtn);
 accessoriesBtn.addEventListener('click', e => {
   e.preventDefault();
   filterCards('category', 'Accessories');
